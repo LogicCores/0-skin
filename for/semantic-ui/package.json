@@ -1,0 +1,8 @@
+{
+  "name": "0-skin-for-semantic-ui",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "semantic-ui-css": "^2.0.8"
+  }
+}
