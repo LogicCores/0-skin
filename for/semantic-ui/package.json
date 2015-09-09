@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
+    "send": "^0.13.0",
     "semantic-ui-css": "^2.0.8"
   }
 }
