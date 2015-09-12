@@ -1,0 +1,8 @@
+{
+  "name": "0-skin-for-sm.hoist.VisualComponents",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "escape-regexp-component": "^1.0.2"
+  }
+}
