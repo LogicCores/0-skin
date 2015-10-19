@@ -45,7 +45,7 @@ exports.forLib = function (LIB) {
                             'screen and (min-width: 767px)'
                         ]));
 
-                        return LIB.fs.writeFile(distPath, output.toString(), "utf8", function (err) {
+                        return LIB.fs.outputFile(distPath, output.toString(), "utf8", function (err) {
                             if (err) return next(err);
 
         		           	return respond();
