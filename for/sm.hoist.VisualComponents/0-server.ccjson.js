@@ -1,8 +1,6 @@
 
 exports.forLib = function (LIB) {
     var ccjson = this;
-    
-    const ESCAPE_REGEXP_COMPONENT = require("escape-regexp-component");
 
     return LIB.Promise.resolve({
         forConfig: function (defaultConfig) {
@@ -21,7 +19,7 @@ exports.forLib = function (LIB) {
 					var m;
 					while ( (m = re.exec(html)) ) {
 						html = html.replace(
-						    new RegExp(ESCAPE_REGEXP_COMPONENT(m[0]), "g"),
+						    new RegExp(LIB.RegExp_Escape(m[0]), "g"),
 						    m[1] + "data-component-" + m[2].replace(/:/g, "-") + m[3]
 						);
 					}

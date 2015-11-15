@@ -4,10 +4,6 @@ exports.forLib = function (LIB) {
     var exports = {};
 
     exports.app = function (options) {
-    
-        const SEND = require("send");
-        const REWORK = require("rework");
-        const REWORK_CSS_QUERYLESS = require("css-queryless");
 
         return function (req, res, next) {
     
@@ -38,7 +34,10 @@ exports.forLib = function (LIB) {
                     
                     return LIB.fs.readFile(sourcePath.replace(/\.no-media(\.css)$/, "$1"), "utf8", function (err, css) {
                         if (err) return next(err);
-    
+
+                        const REWORK = require("rework");
+                        const REWORK_CSS_QUERYLESS = require("css-queryless");
+
                         var output = REWORK(css)
                         // TODO: Make options configurable.
             			.use(REWORK_CSS_QUERYLESS([
@@ -53,7 +52,7 @@ exports.forLib = function (LIB) {
                     });
     
                 } else {
-                	return SEND(req, LIB.path.basename(sourcePath), {
+                	return LIB.send(req, LIB.path.basename(sourcePath), {
                 		root: LIB.path.dirname(sourcePath)
                 	}).on("error", next).pipe(res);
                 }
