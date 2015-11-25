@@ -10,11 +10,11 @@ exports.forLib = function (LIB) {
             var sourcePath = LIB.path.join(__dirname, "node_modules/semantic-ui-css", req.params[0].replace(/\.dist(\.css)$/, "$1"));
 	        var distPath = LIB.path.join(options.distPath, req.params[0]);
 
-	        function respond () {
-				res.writeHead(200, {
-					"Content-Type": "text/css"
-				});
-	           	return LIB.fs.createReadStream(distPath).pipe(res);
+	        function respond (path) {
+            	return LIB.send(req, LIB.path.basename(path), {
+            		root: LIB.path.dirname(path),
+        		    maxAge: options.clientCacheTTL || 0
+            	}).on("error", next).pipe(res);
 	        }
 
 			return LIB.fs.exists(distPath, function (exists) {
@@ -27,7 +27,7 @@ exports.forLib = function (LIB) {
 		        	)
 		        ) {
 		           	// We return a pre-built file if it exists and are being asked for it
-		           	return respond();
+		           	return respond(distPath);
 		        }
 
                 if (/\.no-media\.css$/.test(sourcePath)) {
@@ -47,14 +47,12 @@ exports.forLib = function (LIB) {
                         return LIB.fs.outputFile(distPath, output.toString(), "utf8", function (err) {
                             if (err) return next(err);
 
-        		           	return respond();
+        		           	return respond(distPath);
                         });
                     });
     
                 } else {
-                	return LIB.send(req, LIB.path.basename(sourcePath), {
-                		root: LIB.path.dirname(sourcePath)
-                	}).on("error", next).pipe(res);
+		           	return respond(sourcePath);
                 }
 			});
         }
